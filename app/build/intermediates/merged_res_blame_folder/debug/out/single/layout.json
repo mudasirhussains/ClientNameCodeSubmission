@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "C:\\Users\\Gondal\\.gradle\\daemon\\8.0\\com.apex.codeassesment.app-mergeDebugResources-50:\\layout\\activity_main.xml",
+        "source": "C:\\Users\\Gondal\\.gradle\\daemon\\8.0\\com.apex.codeassesment.app-main-53:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\Gondal\\.gradle\\daemon\\8.0\\com.apex.codeassesment.app-mergeDebugResources-50:\\layout\\activity_location.xml",
+        "source": "C:\\Users\\Gondal\\.gradle\\daemon\\8.0\\com.apex.codeassesment.app-main-53:\\layout\\activity_location.xml"
+    },
+    {
+        "merged": "C:\\Users\\Gondal\\.gradle\\daemon\\8.0\\com.apex.codeassesment.app-mergeDebugResources-50:\\layout\\activity_details.xml",
+        "source": "C:\\Users\\Gondal\\.gradle\\daemon\\8.0\\com.apex.codeassesment.app-main-53:\\layout\\activity_details.xml"
+    },
+    {
+        "merged": "com.apex.codeassesment.app-mergeDebugResources-50:/layout/activity_main.xml",
+        "source": "com.apex.codeassesment.app-main-53:/layout/activity_main.xml"
+    }
+]
