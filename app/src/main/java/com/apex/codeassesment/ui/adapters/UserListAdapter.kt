@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.apex.codeassesment.data.model.RemoteData
+import com.apex.codeassesment.data.model.User
 
 interface OnItemClickListener {
-    fun onItemClick(user: RemoteData)
+    fun onItemClick(user: User)
 }
 
-class UserListAdapter(private var userList: List<RemoteData>, private val itemClickListener: OnItemClickListener) :
+class UserListAdapter(private var userList: List<User>, private val itemClickListener: OnItemClickListener) :
     RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -28,7 +29,7 @@ class UserListAdapter(private var userList: List<RemoteData>, private val itemCl
     override fun getItemCount(): Int = userList.size
 
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(user: RemoteData) {
+        fun bind(user: User) {
             itemView.setOnClickListener { itemClickListener.onItemClick(user) }
             (itemView as TextView).text = user.toString()
         }

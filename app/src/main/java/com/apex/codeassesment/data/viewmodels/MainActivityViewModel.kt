@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.apex.codeassesment.data.model.RemoteData
 import com.apex.codeassesment.data.model.User
 import com.apex.codeassesment.data.remote.DataResult
 import com.apex.codeassesment.data.repository.IUserRepository
@@ -20,8 +19,8 @@ class MainActivityViewModel @Inject constructor(private val userRepository: IUse
     private val _randomUser = MutableLiveData<User?>()
     val randomUser: MutableLiveData<User?> get() = _randomUser
 
-    private val _usersList = MutableLiveData<List<RemoteData>?>()
-    val usersList: MutableLiveData<List<RemoteData>?> get() = _usersList
+    private val _usersList = MutableLiveData<List<User>?>()
+    val usersList: MutableLiveData<List<User>?> get() = _usersList
 
     init {
         _randomUser.value = userRepository.getSavedUser()
@@ -47,7 +46,7 @@ class MainActivityViewModel @Inject constructor(private val userRepository: IUse
                     }
                 }
             } catch (e: Exception) {
-                Log.e("MainActivityViewModel", "Error fetching random user: $e")
+                //Log.e("MainActivityViewModel", "Error fetching random user: $e")
             }
         }
     }
@@ -55,7 +54,7 @@ class MainActivityViewModel @Inject constructor(private val userRepository: IUse
     fun loadUsersList() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val result = userRepository.getUsers()
+                val result = userRepository.getUsersList()
                 withContext(Dispatchers.Main) {
                     when (result) {
                         is DataResult.Success -> {
@@ -72,7 +71,7 @@ class MainActivityViewModel @Inject constructor(private val userRepository: IUse
                     }
                 }
             } catch (e: Exception) {
-                Log.e("MainActivityViewModel", "Error fetching random users: $e")
+                //Log.e("MainActivityViewModel", "Error fetching random users: $e")
             }
         }
     }

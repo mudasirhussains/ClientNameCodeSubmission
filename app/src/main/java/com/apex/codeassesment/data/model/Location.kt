@@ -11,7 +11,7 @@ data class Location(
     val city: String? = null,
     val state: String? = null,
     val country: String? = null,
-    val postcode: Long? = null,
+//    val postcode: Long? = null, commented this line because the api was throwing error as it receives strings sometime
     val coordinates: Coordinates? = null,
     val timezone: Timezone? = null
 ): Parcelable

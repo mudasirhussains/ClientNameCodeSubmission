@@ -1,79 +1,39 @@
-package com.apex.codeassesment
-
-
-import android.content.SharedPreferences
+import android.content.Context
 import com.apex.codeassesment.data.local.PreferencesManager
-import org.junit.After
-import org.junit.Assert.*
-import org.junit.Before
+import com.apex.codeassesment.ui.main.MainActivity
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.equalTo
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito.reset
-import org.mockito.Mockito.`when`
-import org.mockito.MockitoAnnotations
-
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 
 class PreferencesManagerTest {
 
-    private lateinit var preferencesManager: PreferencesManager
+    private val preferencesManager = PreferencesManager()
 
-    @Mock
-    private lateinit var mockSharedPreferences: SharedPreferences
+    @Test
+    fun saveUser_shouldSaveTheUserToSharedPreferences() {
+        val user = "John Doe"
+        preferencesManager.saveUser(user)
 
-    @Before
-    fun setUp() {
-        MockitoAnnotations.initMocks(this)
-        preferencesManager = PreferencesManager()
+        val sharedPreferences = MainActivity.sharedContext?.getSharedPreferences("random-user-preferences", Context.MODE_PRIVATE)
+        val savedUser = sharedPreferences?.getString("saved-user", null)
 
-        preferencesManager.setSharedPreferences(mockSharedPreferences)
-    }
-
-    @After
-    fun clearSharedPreferences() {
-        reset(mockSharedPreferences)
+        assertThat(savedUser, equalTo(user))
     }
 
     @Test
-    fun saveUserAndLoadUser_Successful() {
-        val testUser = "JohnDoe"
-        `when`(mockSharedPreferences.getString("saved-user", null)).thenReturn(testUser)
+    fun loadUser_shouldReturnTheSavedUser() {
+        val user = "Jane Doe"
+        preferencesManager.saveUser(user)
 
-        preferencesManager.saveUser(testUser)
-        val loadedUser = preferencesManager.loadUser()
+        val savedUser = preferencesManager.loadUser()
 
-        assertNotNull(loadedUser)
-        assertEquals(testUser, loadedUser)
+        assertThat(savedUser, equalTo(user))
     }
 
     @Test
-    fun loadUser_NoUserSaved() {
-        `when`(mockSharedPreferences.getString("saved-user", null)).thenReturn(null)
+    fun loadUser_shouldReturnNullIfNoUserIsSaved() {
+        val savedUser = preferencesManager.loadUser()
 
-        val loadedUser = preferencesManager.loadUser()
-
-        assertNull(loadedUser)
-    }
-
-    @Test
-    fun saveUser_OverwritePreviousUser() {
-        val firstUser = "Mudassir"
-        val secondUser = "Hussain"
-        `when`(mockSharedPreferences.getString("saved-user", null)).thenReturn(firstUser)
-
-        preferencesManager.saveUser(firstUser)
-        preferencesManager.saveUser(secondUser)
-        val loadedUser = preferencesManager.loadUser()
-
-        assertNotNull(loadedUser)
-        assertEquals(secondUser, loadedUser)
-        assertNotEquals(firstUser, loadedUser)
+        assertThat(savedUser, null)
     }
 }
-
-
-

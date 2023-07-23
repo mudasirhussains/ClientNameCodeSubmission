@@ -39,7 +39,7 @@ class DetailsActivity : AppCompatActivity() {
 
             // TODO (1 point): Use Glide to load images
             Glide.with(this)
-                .load(user.picture)
+                .load(user.picture?.large)
                 .placeholder(R.drawable.ic_launcher_background)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(binding.detailsImage)

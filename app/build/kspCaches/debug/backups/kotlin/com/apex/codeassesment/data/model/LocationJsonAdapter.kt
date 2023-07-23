@@ -13,7 +13,6 @@ import com.squareup.moshi.`internal`.Util
 import java.lang.NullPointerException
 import java.lang.reflect.Constructor
 import kotlin.Int
-import kotlin.Long
 import kotlin.String
 import kotlin.Suppress
 import kotlin.Unit
@@ -25,16 +24,13 @@ public class LocationJsonAdapter(
   moshi: Moshi
 ) : JsonAdapter<Location>() {
   private val options: JsonReader.Options = JsonReader.Options.of("street", "city", "state",
-      "country", "postcode", "coordinates", "timezone")
+      "country", "coordinates", "timezone")
 
   private val nullableStreetAdapter: JsonAdapter<Street?> = moshi.adapter(Street::class.java,
       emptySet(), "street")
 
   private val nullableStringAdapter: JsonAdapter<String?> = moshi.adapter(String::class.java,
       emptySet(), "city")
-
-  private val nullableLongAdapter: JsonAdapter<Long?> = moshi.adapter(Long::class.javaObjectType,
-      emptySet(), "postcode")
 
   private val nullableCoordinatesAdapter: JsonAdapter<Coordinates?> =
       moshi.adapter(Coordinates::class.java, emptySet(), "coordinates")
@@ -53,7 +49,6 @@ public class LocationJsonAdapter(
     var city: String? = null
     var state: String? = null
     var country: String? = null
-    var postcode: Long? = null
     var coordinates: Coordinates? = null
     var timezone: Timezone? = null
     var mask0 = -1
@@ -81,19 +76,14 @@ public class LocationJsonAdapter(
           mask0 = mask0 and 0xfffffff7.toInt()
         }
         4 -> {
-          postcode = nullableLongAdapter.fromJson(reader)
+          coordinates = nullableCoordinatesAdapter.fromJson(reader)
           // $mask = $mask and (1 shl 4).inv()
           mask0 = mask0 and 0xffffffef.toInt()
         }
         5 -> {
-          coordinates = nullableCoordinatesAdapter.fromJson(reader)
+          timezone = nullableTimezoneAdapter.fromJson(reader)
           // $mask = $mask and (1 shl 5).inv()
           mask0 = mask0 and 0xffffffdf.toInt()
-        }
-        6 -> {
-          timezone = nullableTimezoneAdapter.fromJson(reader)
-          // $mask = $mask and (1 shl 6).inv()
-          mask0 = mask0 and 0xffffffbf.toInt()
         }
         -1 -> {
           // Unknown name, skip it.
@@ -103,14 +93,13 @@ public class LocationJsonAdapter(
       }
     }
     reader.endObject()
-    if (mask0 == 0xffffff80.toInt()) {
+    if (mask0 == 0xffffffc0.toInt()) {
       // All parameters with defaults are set, invoke the constructor directly
       return  Location(
           street = street,
           city = city,
           state = state,
           country = country,
-          postcode = postcode,
           coordinates = coordinates,
           timezone = timezone
       )
@@ -119,15 +108,14 @@ public class LocationJsonAdapter(
       @Suppress("UNCHECKED_CAST")
       val localConstructor: Constructor<Location> = this.constructorRef ?:
           Location::class.java.getDeclaredConstructor(Street::class.java, String::class.java,
-          String::class.java, String::class.java, Long::class.javaObjectType,
-          Coordinates::class.java, Timezone::class.java, Int::class.javaPrimitiveType,
-          Util.DEFAULT_CONSTRUCTOR_MARKER).also { this.constructorRef = it }
+          String::class.java, String::class.java, Coordinates::class.java, Timezone::class.java,
+          Int::class.javaPrimitiveType, Util.DEFAULT_CONSTRUCTOR_MARKER).also {
+          this.constructorRef = it }
       return localConstructor.newInstance(
           street,
           city,
           state,
           country,
-          postcode,
           coordinates,
           timezone,
           mask0,
@@ -149,8 +137,6 @@ public class LocationJsonAdapter(
     nullableStringAdapter.toJson(writer, value_.state)
     writer.name("country")
     nullableStringAdapter.toJson(writer, value_.country)
-    writer.name("postcode")
-    nullableLongAdapter.toJson(writer, value_.postcode)
     writer.name("coordinates")
     nullableCoordinatesAdapter.toJson(writer, value_.coordinates)
     writer.name("timezone")

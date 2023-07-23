@@ -11,5 +11,5 @@ interface UserApiService {
     suspend fun getRandomUser(): Response<RemoteData>
 
     @GET("api")
-    suspend fun getRandomUsers(@Query("results") count: Int): Response<List<RemoteData>>
+    suspend fun getRandomUsers(@Query("results") count: Int): Response<RemoteData>
 }

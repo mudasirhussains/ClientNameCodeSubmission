@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apex.codeassesment.R
 import com.apex.codeassesment.RandomUserApplication
-import com.apex.codeassesment.data.model.RemoteData
 import com.apex.codeassesment.data.model.User
 import com.apex.codeassesment.data.viewmodels.MainActivityViewModel
 import com.apex.codeassesment.databinding.ActivityMainBinding
@@ -17,6 +16,7 @@ import com.apex.codeassesment.utils.navigateDetails
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import javax.inject.Inject
+
 
 // TODO (5 points): Move calls to repository to Presenter or ViewModel. -done
 // TODO (5 points): Use combination of sealed/Dataclasses for exposing the data required by the view from viewModel . -done
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         mViewBinding.mainName.text = it.name?.first
         mViewBinding.mainEmail.text = it.email
         Glide.with(this)
-          .load(user.picture)
+          .load(user.picture?.medium)
           .placeholder(R.drawable.ic_launcher_background)
           .diskCacheStrategy(DiskCacheStrategy.ALL) // Caches the image both in memory and on disk
           .into(mViewBinding.mainImage)
@@ -101,7 +101,7 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
   }
 
 
-  override fun onItemClick(user: RemoteData) {
+  override fun onItemClick(user: User) {
     navigateDetails(user as User)
 
   }

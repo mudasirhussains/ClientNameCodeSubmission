@@ -8,5 +8,5 @@
 -keepnames class kotlin.jvm.internal.DefaultConstructorMarker
 -if class com.apex.codeassesment.data.model.Location
 -keepclassmembers class com.apex.codeassesment.data.model.Location {
-    public synthetic <init>(com.apex.codeassesment.data.model.Street,java.lang.String,java.lang.String,java.lang.String,java.lang.Long,com.apex.codeassesment.data.model.Coordinates,com.apex.codeassesment.data.model.Timezone,int,kotlin.jvm.internal.DefaultConstructorMarker);
+    public synthetic <init>(com.apex.codeassesment.data.model.Street,java.lang.String,java.lang.String,java.lang.String,com.apex.codeassesment.data.model.Coordinates,com.apex.codeassesment.data.model.Timezone,int,kotlin.jvm.internal.DefaultConstructorMarker);
 }
